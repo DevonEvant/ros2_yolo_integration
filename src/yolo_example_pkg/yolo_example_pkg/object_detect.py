@@ -33,12 +33,12 @@ class YoloDetectionNode(Node):
 
         # 訂閱影像 Topic
         self.image_sub = self.create_subscription(
-            CompressedImage, "/out/compressed", self.image_callback, 10
+            CompressedImage, "/camera/image/compressed", self.image_callback, 1
         )
 
         # 訂閱 **無壓縮** 深度圖 Topic
         self.depth_sub_raw = self.create_subscription(
-            Image, "/camera/depth/image_raw", self.depth_callback_raw, 10
+            Image, "/camera/depth/image_raw", self.depth_callback_raw, 1
         )
 
         # 訂閱 **壓縮** 深度圖 Topic
@@ -46,7 +46,7 @@ class YoloDetectionNode(Node):
             CompressedImage,
             "/camera/depth/compressed",
             self.depth_callback_compressed,
-            10,
+            1,
         )
 
         # 發佈處理後的影像 Topic
