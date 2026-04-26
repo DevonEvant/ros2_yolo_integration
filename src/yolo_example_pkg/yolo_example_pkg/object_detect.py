@@ -23,7 +23,11 @@ class YoloDetectionNode(Node):
 
         # 使用 yolo model 位置
         model_path = os.path.join(
-            get_package_share_directory("yolo_example_pkg"), "models", "tennis_v2.pt"
+            get_package_share_directory("yolo_example_pkg"),
+            "models",
+            "best.pt",
+            # "best-seg.pt",
+            # "tennis_v2.pt",
         )
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -64,10 +68,10 @@ class YoloDetectionNode(Node):
         )
 
         # 設定要過濾標籤 (如果為空，那就不過濾)
-        self.allowed_labels = {"tennis"}
+        self.allowed_labels = {}  # {"bear", "knob"}
 
         # 設定 YOLO 可信度閾值
-        self.conf_threshold = 0.5  # 可以修改這個值來調整可信度
+        self.conf_threshold = 0.50  # 可以修改這個值來調整可信度
 
         # 相機畫面中央高度上切成 n 個等距水平點。
         self.x_num_splits = 20
@@ -99,6 +103,7 @@ class YoloDetectionNode(Node):
             cv_image = self.bridge.compressed_imgmsg_to_cv2(
                 msg, desired_encoding="bgr8"
             )
+            print("==>", cv_image.shape)
         except Exception as e:
             self.get_logger().error(f"Could not convert image: {e}")
             return
@@ -106,6 +111,11 @@ class YoloDetectionNode(Node):
         # 使用 YOLO 模型檢測物體
         try:
             results = self.model(cv_image, conf=self.conf_threshold, verbose=False)
+            for r in results:
+                # 列印物件類別 ID、分數、以及框的座標
+                print(r.boxes.cls)  # 類別索引
+                print(r.boxes.conf)  # 信心分數
+                print(r.boxes.xyxy)  # 框的座標 (x1, y1, x2, y2)
         except Exception as e:
             self.get_logger().error(f"Error during YOLO detection: {e}")
             return

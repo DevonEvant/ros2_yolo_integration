@@ -1,8 +1,8 @@
 yolo:
-  conf: 0.8
+  conf: 0.2
   # obb_model: "balldetect-11s.pt"
-  obb_model: "tennis_v2.pt"
-  seg_model: "segmentation_hw.pt"
+  obb_model: "best-obj.pt"
+  seg_model: "best-seg.pt"
 
 image:
   use_compressed: false

@@ -108,7 +108,7 @@ class BoundingBoxVisualizer:
     ):
         image = self.image_processor.get_rgb_cv_image()
         if image is None:
-            print("Error: No image received from image_processor")
+            print("Error: No image received from image_processor!")
             return
         if segmentation_status:
             segmentation_objects = self.yolo_bounding_box.get_segmentation_data()
@@ -159,6 +159,7 @@ class BoundingBoxVisualizer:
         try:
             ros_image = self.image_processor.get_rgb_ros_image(image)
             self.ros_communicator.publish_data("yolo_image", ros_image)
+            print("Attempting to publish...")
         except Exception as e:
             print(f"Failed to publish final image: {e}")
 
