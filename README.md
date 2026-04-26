@@ -1,3 +1,21 @@
+修改內容:
+- `src/yolo_pkg/config/yolo_params.yaml` 填入自己的模型名稱，模型放置在 `src/yolo_pkg/models/` 之下
+- `src/yolo_pkg/yolo_pkg/ros_communicator.py` 輸入畫面 `/camera/image/compressed` 輸出畫面 `/yolo/detection/compressed_x`
+- 在 Foxglove 選擇 Topic `/yolo/detection/compressed_x`
+
+查看 Commit 資訊獲取更多修改細節。
+
+終端輸入
+```bash
+./yolo_activate.sh
+r
+ros2 run yolo_pkg yolo_detection_node
+# 跳出選單，選4。如果發生錯誤，可能是 ultralytics 套件版本較舊，輸入 pip install -U ultralytics
+```
+
+--- 
+original
+
 # ros2_yolo_integration
 ## yolo_pkg
 ### Usage
